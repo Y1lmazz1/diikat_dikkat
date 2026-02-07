@@ -3,95 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beni Affet ❤️</title>
+    <title>Seni Seviyorum ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff758f;
+            --bg: #fff0f3;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; margin: 0; overflow: hidden; text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
-        .container {
-            background: white; padding: 2rem; border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 450px; width: 90%; transition: all 0.3s;
+
+        /* Cam efekti (Glassmorphism) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 85%;
+            z-index: 10;
+            transition: all 0.5s ease;
         }
-        img { width: 200px; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; }
-        h1 { color: #d81b60; font-size: 1.5rem; }
-        .buttons { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
-        #yesBtn { background-color: #4caf50; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.2s; padding: 10px 20px; font-size: 1rem; }
-        #noBtn { background-color: #f44336; color: white; border: none; border-radius: 10px; cursor: pointer; padding: 10px 20px; font-weight: bold; }
+
+        .heart-icon {
+            color: var(--primary);
+            font-size: 50px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        img {
+            width: 180px;
+            height: 180px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.2);
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #590d22;
+            font-size: 2.2rem;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #a4133c;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 100px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        #yesBtn {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            z-index: 999;
+        }
+
+        #noBtn {
+            background: #fff;
+            color: #ff4d6d;
+            border: 2px solid #ff4d6d;
+        }
+
+        /* Arka plan süsleri */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 77, 109, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainCard">
-        <img id="statusImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/c76IJLufpNwSULPk77/giphy.gif" alt="Sad Cat">
-        <h1 id="statusText">Beni hala seviyor musun?</h1>
+    <div class="bubble" style="width: 200px; height: 200px; top: -50px; left: -50px;"></div>
+    <div class="bubble" style="width: 150px; height: 150px; bottom: -30px; right: -30px;"></div>
+
+    <div class="glass-card" id="card">
+        <div class="heart-icon">❤️</div>
+        <img id="mainImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/c76IJLufpNwSULPk77/giphy.gif" alt="Cute Cat">
+        <h1 id="title">Beni Affeder Misin?</h1>
+        <p id="desc">Hatalıyım, biliyorum... Ama seni çok seviyorum. Her şeyi düzeltmeme izin ver.</p>
         
-        <div class="buttons" id="btnGroup">
-            <button id="yesBtn" onclick="celebrate()">Evet</button>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="handleYes()">Evet</button>
             <button id="noBtn" onmouseover="handleNo()" onclick="handleNo()">Hayır</button>
         </div>
     </div>
 
     <script>
-        let clickCount = 0;
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const statusImg = document.getElementById('statusImg');
-        const statusText = document.getElementById('statusText');
-
-        const phrases = [
-            "Emin misin?",
-            "Bak bir daha düşün...",
-            "Gerçekten mi?",
-            "Bunu bana yapma...",
-            "Ağlarım ama...",
-            "Kalbimi kırıyorsun :(",
-            "Tamam bittik biz..."
+        let scale = 1;
+        let noClicks = 0;
+        
+        const messages = [
+            "Emin misin? 🥺",
+            "Bir kez daha düşün...",
+            "Kalbimi kırıyorsun ama :(",
+            "Lütfen hayır deme...",
+            "Bak ağlıyorum şu an!",
+            "Tamam tamam, söz pizza ısmarlayacağım!",
+            "Yeter, tıkla şu yeşile! 😤"
         ];
 
-        const images = [
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKVUn7iM8FMEU24/giphy.gif", // Üzgün
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/OPU6wUKARAteM/giphy.gif", // Ağlayan
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/7SF5scGB2AFrO/giphy.gif" // Çok üzgün
+        const gifs = [
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/OPU6wUKARAteM/giphy.gif", // Ağlayan
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/7SF5scGB2AFrO/giphy.gif", // Daha üzgün
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26fNcq6p0N4g8/giphy.gif"  // En üzgün
         ];
 
         function handleNo() {
-            clickCount++;
+            noClicks++;
             
-            // Evet butonunu büyüt
-            const newSize = 1 + (clickCount * 0.8);
-            yesBtn.style.transform = `scale(${newSize})`;
+            // Evet butonunu devleştir
+            scale += 0.5;
+            document.getElementById('yesBtn').style.transform = `scale(${scale})`;
             
-            // Yazıyı değiştir
-            const phraseIndex = Math.min(clickCount, phrases.length - 1);
-            statusText.innerHTML = phrases[phraseIndex];
-
-            // Resmi değiştir
-            const imgIndex = Math.min(Math.floor(clickCount / 2), images.length - 1);
-            statusImg.src = images[imgIndex];
-
-            // Hayır butonunu rastgele bir yere ışınla
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            // Hayır butonunu kaçır
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            const noBtn = document.getElementById('noBtn');
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
+
+            // Mesaj ve GIF değiştir
+            if (noClicks < messages.length) {
+                document.getElementById('desc').innerText = messages[noClicks - 1];
+            }
+            
+            const gifIndex = Math.min(Math.floor(noClicks / 2), gifs.length - 1);
+            document.getElementById('mainImg').src = gifs[gifIndex];
         }
 
-        function celebrate() {
-            document.getElementById('mainCard').innerHTML = `
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJreXU1dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/K976VvOAnXatW/giphy.gif">
-                <h1>Seni Çok Seviyorum! ❤️</h1>
-                <p>Biliyordum affedeceğini! Hemen arıyorum...</p>
+        function handleYes() {
+            const card = document.getElementById('card');
+            card.innerHTML = `
+                <div class="heart-icon">💖</div>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v1.Y2lkPTc5MGI3NjExM3Y4eXU5dmlyNHR6bmZ6ZzJ2bm56Z3N6ZzJ2bm56Z3N6ZzJ2bm56ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/K976VvOAnXatW/giphy.gif">
+                <h1>YAŞASIN! ❤️</h1>
+                <p>Dünyanın en mutlu insanı yaptın beni! Hemen geliyorum yanına!</p>
             `;
+            
+            // Konfeti fırtınası
             confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#c9184a']
             });
         }
     </script>
