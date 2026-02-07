@@ -64,48 +64,45 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script>
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+   <script>
+    const noBtn = document.getElementById('noBtn');
 
-        function celebrate() {
-            document.getElementById('btnGroup').style.display = 'none';
-            document.querySelector('p').style.display = 'none';
-            document.querySelector('h1').style.display = 'none';
-            document.getElementById('message').style.display = 'block';
-            
-            // Konfeti patlatma
-            var duration = 5 * 1000;
-            var end = Date.now() + duration;
+    // Hem dokunma hem mouse üzerine gelme durumunda kaçsın
+    ['mouseover', 'touchstart'].forEach(eventType => {
+        noBtn.addEventListener(eventType, function(e) {
+            e.preventDefault(); // Mobilde tıklanmasını engeller
+            moveButton();
+        });
+    });
 
-            (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ['#ff69b4', '#ff1493']
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#ff69b4', '#ff1493']
-              });
+    function moveButton() {
+        // Ekran boyutlarını al
+        const maxWidth = window.innerWidth - noBtn.offsetWidth - 20;
+        const maxHeight = window.innerHeight - noBtn.offsetHeight - 20;
 
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
-            }());
-        }
-    </script>
+        // Rastgele yeni koordinatlar (Ekran sınırları içinde)
+        const x = Math.floor(Math.random() * maxWidth);
+        const y = Math.floor(Math.random() * maxHeight);
+
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
+    }
+
+    function celebrate() {
+        document.getElementById('btnGroup').style.display = 'none';
+        document.querySelector('p').style.display = 'none';
+        document.querySelector('h1').innerHTML = "Harika bir karar! ❤️";
+        document.getElementById('message').style.display = 'block';
+        
+        // Konfeti efektini başlat
+        const end = Date.now() + (5 * 1000);
+        (function frame() {
+            confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff69b4', '#ff1493'] });
+            confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff69b4', '#ff1493'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+    }
+</script>
 </body>
 </html>
